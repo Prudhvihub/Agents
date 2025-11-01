@@ -29,10 +29,22 @@ class AgentComparison:
         )
 
 
-def compare_agents(repo_root: Path, query: str) -> AgentComparison:
+def compare_agents(
+    repo_root: Path,
+    query: str,
+    *,
+    chunk_size: int = 80,
+    chunk_overlap: int = 10,
+    top_k: int = 4,
+) -> AgentComparison:
     """Run both agents and return a formatted comparison object."""
 
-    chunked = ChunkedRAGAgent(repo_root)
+    chunked = ChunkedRAGAgent(
+        repo_root,
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        top_k=top_k,
+    )
     full = FullContextAgent(repo_root)
 
     chunked_response = chunked.answer(query)

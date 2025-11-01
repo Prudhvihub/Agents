@@ -15,6 +15,17 @@ python scripts/compare_agents.py "summarise the repository structure"
 
 Provide `--repo` to point at a different codebase. The script prints both agent
 responses so you can directly compare the amount of context each strategy sees.
+Additional flags let you tweak the chunked agent for experiments:
+
+```bash
+python scripts/compare_agents.py "summarise the repository structure" \
+  --chunk-size 120 \
+  --chunk-overlap 20 \
+  --top-k 6
+```
+
+Changing these values helps illustrate how chunk size and overlap affect the
+retrieved slices.
 
 ## Testing the demo locally
 

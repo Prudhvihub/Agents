@@ -28,6 +28,24 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path.cwd(),
         help="Path to the repository to analyse (defaults to current working directory).",
     )
+    parser.add_argument(
+        "--chunk-size",
+        type=int,
+        default=80,
+        help="Number of lines per chunk for the chunked agent (default: 80).",
+    )
+    parser.add_argument(
+        "--chunk-overlap",
+        type=int,
+        default=10,
+        help="Number of overlapping lines between chunks (default: 10).",
+    )
+    parser.add_argument(
+        "--top-k",
+        type=int,
+        default=4,
+        help="How many chunks to surface for the comparison (default: 4).",
+    )
     return parser
 
 
@@ -35,7 +53,13 @@ def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
 
-    comparison = compare_agents(args.repo, args.query)
+    comparison = compare_agents(
+        args.repo,
+        args.query,
+        chunk_size=args.chunk_size,
+        chunk_overlap=args.chunk_overlap,
+        top_k=args.top_k,
+    )
     print(comparison.format())
 
 
